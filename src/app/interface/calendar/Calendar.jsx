@@ -51,10 +51,6 @@ const Calendar = () => {
         setModalActive(true);
     };
 
-    const onChangeModal = () => {
-        setModalActive(!modalActive);
-    };
-
     const renderCalendar = () => {
         const calendar = [];
         let dayCounter = 1;
@@ -75,6 +71,10 @@ const Calendar = () => {
         return calendar;
     };
 
+    const onChangeModal = () => {
+        setModalActive(!modalActive);
+    };
+
     const calendar = renderCalendar();
 
     return (
@@ -87,6 +87,7 @@ const Calendar = () => {
                 calendar={calendar}
                 handleClick={handleClick}
                 daysOfWeek={daysOfWeek}
+                currentDate={currentDate}
             />
             <button onClick={nextMonth}>next</button>
             <button onClick={prevMonth}>prev</button>
