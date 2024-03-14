@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import TableCalendar from '../../components/tableCalendar/TableCalendar';
+import ModalCreateActivity from '../../components/modalCreateActivity/ModalCreateActivity';
 
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -6,6 +8,7 @@ const Calendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [daysInMonth, setDaysInMonth] = useState(0);
     const [firstDayOfMonth, setFirstDayOfMonth] = useState(0);
+    const [modalActive, setModalActive] = useState(false);
 
     useEffect(() => {
         const daysInMonthValue = new Date(
@@ -39,6 +42,19 @@ const Calendar = () => {
         });
     };
 
+    const handleClick = (day) => {
+        console.log(
+            `Clicked date: ${day}/${
+                currentDate.getMonth() + 1
+            }/${currentDate.getFullYear()}`
+        );
+        setModalActive(true);
+    };
+
+    const onChangeModal = () => {
+        setModalActive(!modalActive);
+    };
+
     const renderCalendar = () => {
         const calendar = [];
         let dayCounter = 1;
@@ -63,27 +79,15 @@ const Calendar = () => {
 
     return (
         <div>
+            {modalActive ? <ModalCreateActivity onChangeModal={onChangeModal} /> : null}
             <h2>
                 {currentDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
             </h2>
-            <table>
-                <thead>
-                    <tr>
-                        {daysOfWeek.map((day) => (
-                            <th key={day}>{day}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {calendar.map((week, index) => (
-                        <tr key={index}>
-                            {week.map((day, idx) => (
-                                <td key={idx}>{day !== null ? day : ''}</td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <TableCalendar
+                calendar={calendar}
+                handleClick={handleClick}
+                daysOfWeek={daysOfWeek}
+            />
             <button onClick={nextMonth}>next</button>
             <button onClick={prevMonth}>prev</button>
         </div>
