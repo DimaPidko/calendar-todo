@@ -9,6 +9,7 @@ const Calendar = () => {
     const [daysInMonth, setDaysInMonth] = useState(0);
     const [firstDayOfMonth, setFirstDayOfMonth] = useState(0);
     const [modalActive, setModalActive] = useState(false);
+    const [clickDate, setClickDate] = useState({});
 
     useEffect(() => {
         const daysInMonthValue = new Date(
@@ -43,11 +44,13 @@ const Calendar = () => {
     };
 
     const handleClick = (day) => {
-        console.log(
-            `Clicked date: ${day}/${
-                currentDate.getMonth() + 1
-            }/${currentDate.getFullYear()}`
-        );
+        const date = {
+            day: day,
+            month: currentDate.getMonth() + 1,
+            year: currentDate.getFullYear(),
+        };
+        console.log(date);
+        setClickDate(date);
         setModalActive(true);
     };
 
@@ -79,7 +82,12 @@ const Calendar = () => {
 
     return (
         <div>
-            {modalActive ? <ModalCreateActivity onChangeModal={onChangeModal} /> : null}
+            {modalActive ? (
+                <ModalCreateActivity
+                    onChangeModal={onChangeModal}
+                    clickDate={clickDate}
+                />
+            ) : null}
             <h2>
                 {currentDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
             </h2>
