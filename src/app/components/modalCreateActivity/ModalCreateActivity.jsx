@@ -8,8 +8,8 @@ const ModalCreateActivity = (props) => {
                 action="createActivity"
                 className={styles.modalWrapper__form}>
                 <h2>
-                    Create activity for{' '}
-                    {`${props.clickDate.day}/${props.clickDate.month}/${props.clickDate.year}`}
+                    Create activity for
+                    {` ${props.clickDate.day}/${props.clickDate.month}/${props.clickDate.year}`}
                 </h2>
                 <button
                     className={styles.modalWrapper__form_cls}
