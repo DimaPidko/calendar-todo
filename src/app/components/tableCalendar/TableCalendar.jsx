@@ -8,17 +8,17 @@ const TableCalendar = (props) => {
     };
 
     return (
-        <table>
-            <thead>
-                <tr>
+        <>
+            <ol>
+                <li>
                     {props.daysOfWeek.map((day) => (
                         <th key={day}>{day}</th>
                     ))}
-                </tr>
-            </thead>
-            <tbody>
+                </li>
+            </ol>
+            <ul>
                 {props.calendar.map((week, index) => (
-                    <tr key={index}>
+                    <li key={index}>
                         {week.map((day, idx) => {
                             if (day === null) {
                                 return <td key={idx}></td>;
@@ -36,7 +36,7 @@ const TableCalendar = (props) => {
                                 cellDate.getFullYear() === today.getFullYear();
 
                             return (
-                                <td
+                                <li
                                     key={idx}
                                     onClick={() => props.handleClick(day)}
                                     style={{
@@ -46,13 +46,13 @@ const TableCalendar = (props) => {
                                             : 'transparent',
                                     }}>
                                     {day}
-                                </td>
+                                </li>
                             );
                         })}
-                    </tr>
+                    </li>
                 ))}
-            </tbody>
-        </table>
+            </ul>
+        </>
     );
 };
 

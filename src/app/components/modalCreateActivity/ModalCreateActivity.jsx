@@ -7,6 +7,11 @@ const ModalCreateActivity = (props) => {
             <form
                 action="createActivity"
                 className={styles.modalWrapper__form}>
+                <ul>
+                    {props.showTask.map((item) => {
+                        return <li key={item}>Is - {item}</li>;
+                    })}
+                </ul>
                 <h2>
                     Create activity for
                     {` ${props.clickDate.day}/${props.clickDate.month}/${props.clickDate.year}`}

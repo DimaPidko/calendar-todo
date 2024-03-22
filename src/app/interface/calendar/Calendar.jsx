@@ -11,6 +11,7 @@ const Calendar = () => {
     const [modalActive, setModalActive] = useState(false);
     const [clickDate, setClickDate] = useState({});
     const [tasks, setTasks] = useState([]);
+    const [showTask, setShowTask] = useState([]);
 
     useEffect(() => {
         const daysInMonthValue = new Date(
@@ -28,7 +29,29 @@ const Calendar = () => {
         setFirstDayOfMonth(firstDayOfMonthValue === 0 ? 6 : firstDayOfMonthValue - 1);
 
         onRequest();
+
+        // addTask();
     }, [currentDate]);
+
+    // const addTask = async () => {
+    //     try {
+    //         const response = await fetch(
+    //             'https://0400f065-1685-4af7-9b42-63572cc950c4.mock.pstmn.io/calendar',
+    //             {
+    //                 method: 'POST',
+    //                 headers: { 'Content-Type': 'application/json' },
+    //                 body: JSON.stringify({ date: '2024-3-29', task: 'Hello!' }),
+    //             }
+    //         );
+    //         if (!response.ok) {
+    //             throw new Error('Failed to add task');
+    //         }
+    //         const responseData = await response.json();
+    //         console.log('Task added successfully:', responseData);
+    //     } catch (error) {
+    //         console.error('Error adding task:', error);
+    //     }
+    // };
 
     const onRequest = async () => {
         const response = await fetch(
@@ -62,7 +85,8 @@ const Calendar = () => {
             month: currentDate.getMonth() + 1,
             year: currentDate.getFullYear(),
         };
-        console.log(`${date.day}/${date.month}/${date.year}` === '29/3/2024');
+
+        setShowTask([]);
 
         if (Array.isArray(tasks)) {
             // Проверка на массив
@@ -73,9 +97,14 @@ const Calendar = () => {
             );
             if (tasksForSelectedDate.length > 0) {
                 // Если есть задачи на выбранную дату, выполните соответствующие действия
-                console.log('Tasks for selected date:', tasksForSelectedDate[0].task);
-                // Например, отобразите задачи в модальном окне
-                setModalActive(true);
+                setShowTask((prevTask) => [
+                    ...prevTask,
+                    ...tasksForSelectedDate.map((task) => task.task),
+                ]);
+                // tasksForSelectedDate.forEach((taskArray) => {
+                //     setShowTask((prevTask) => [...prevTask, ...taskArray.task]); // Вывод каждой задачи в консоль
+                // });
+                console.log(showTask);
             } else {
                 // Если задач на выбранную дату нет, выполните другие действия
                 console.log('No tasks for selected date');
@@ -120,6 +149,7 @@ const Calendar = () => {
                 <ModalCreateActivity
                     onChangeModal={onChangeModal}
                     clickDate={clickDate}
+                    showTask={showTask}
                 />
             ) : null}
             <h2>
